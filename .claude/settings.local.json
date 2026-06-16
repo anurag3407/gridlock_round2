@@ -7,7 +7,13 @@
       "Bash(python -m pip install -q scikit-learn joblib numpy)",
       "Bash(python train.py)",
       "Bash(python -m pip install -q fastapi uvicorn)",
-      "Bash(./.venv/Scripts/python.exe -c ' *)"
+      "Bash(./.venv/Scripts/python.exe -c ' *)",
+      "Bash(npm --version)",
+      "Bash(mkdir *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)"
     ]
   }
 }

@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Keyframes — declared at root so they're available to inline `style` animations on SVG nodes
+   (Tailwind only emits keyframes when their animate-* utility is referenced). */
+@keyframes pulse_ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes fade_up {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@layer base {
+  :root {
+    --paper: #f2eee5;
+    --ink: #0e1116;
+    --signal: #e64a19;
+    --sage: #3d5a4a;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    @apply font-sans bg-paper text-ink antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  }
+
+  ::selection {
+    background: #0e1116;
+    color: #f2eee5;
+  }
+
+  /* Editorial figure caption */
+  figcaption {
+    @apply text-[0.7rem] tracking-[0.18em] uppercase text-ink-mute font-mono;
+  }
+}
+
+@layer components {
+  /* Hairline divider used everywhere */
+  .hairline {
+    @apply border-t border-ink/12;
+  }
+  .hairline-strong {
+    @apply border-t border-ink/30;
+  }
+
+  /* Editorial eyebrow */
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase tracking-[0.22em] text-ink-mute;
+  }
+
+  /* Display serif headings */
+  .h-display {
+    @apply font-serif font-light text-display-xl text-ink;
+    font-feature-settings: "ss01", "ss02";
+  }
+  .h-large {
+    @apply font-serif font-light text-display-lg text-ink;
+  }
+  .h-medium {
+    @apply font-serif font-normal text-display-md text-ink;
+  }
+
+  /* Lede (large opening paragraph) */
+  .lede {
+    @apply font-serif text-2xl md:text-3xl leading-[1.32] text-ink/90 font-light;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    @apply font-serif text-3xl md:text-4xl leading-[1.18] text-ink font-light italic;
+  }
+
+  /* Body prose */
+  .prose-body {
+    @apply font-sans text-[1.025rem] leading-[1.7] text-ink/82;
+  }
+
+  /* Numeric stat */
+  .stat-num {
+    @apply font-serif font-light tabular-nums;
+    font-feature-settings: "lnum", "tnum";
+  }
+
+  /* Chapter number */
+  .chapter-num {
+    @apply font-mono text-xs tracking-[0.3em] text-signal uppercase;
+  }
+
+  /* Dotted leader (for editorial lists) */
+  .dotted-leader {
+    background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+    background-size: 6px 6px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+  }
+
+  /* Subtle grain overlay applied to dark sections */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--noise-svg);
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  /* Animated underline for editorial links */
+  .ed-link {
+    @apply relative inline-flex items-baseline gap-2 text-ink;
+  }
+  .ed-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(1);
+    transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  .ed-link:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+  /* Scribble underline accent */
+  .scribble {
+    background: linear-gradient(180deg, transparent 70%, rgba(230, 74, 25, 0.32) 70%);
+    padding: 0 0.08em;
+  }
+
+  /* Ink button */
+  .btn-ink {
+    @apply inline-flex items-center gap-3 px-6 py-3 bg-ink text-paper font-mono text-xs tracking-[0.18em] uppercase rounded-full transition-all duration-300 hover:bg-signal hover:scale-[1.02];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-3 px-6 py-3 border border-ink/30 text-ink font-mono text-xs tracking-[0.18em] uppercase rounded-full transition-all duration-300 hover:border-ink hover:bg-ink hover:text-paper;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+  .mask-fade-edges {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 17, 22, 0.2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 17, 22, 0.35);
+}
